@@ -5,7 +5,13 @@ import Home from "./components/Home";
 
 function App() {
   return (
-    <h1>hi</h1>
+    <Router>
+      <Nav />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
 

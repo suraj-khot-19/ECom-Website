@@ -1,6 +1,8 @@
 package com.suraj.ecom_backend.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +18,7 @@ import java.util.Date;
 public class Product {
 
     @Id //primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //generate id automatically and in sequence
     private int id;
     private String name;
     private String disc;

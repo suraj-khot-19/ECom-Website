@@ -4,13 +4,13 @@ function Card(props) {
   return (
     <>
       <Link to={`product/${id}`} style={{ textDecoration: 'none' }}>
-        <div className="card m-2">
+        <div className="card m-2" style={{ color: 'white', backgroundColor: 'rgb(60,60,60,60)' }}>
           <div className="card-body">
             <h5 className="card-title">{name}</h5>
             <p className="card-text">{brand}</p>
             <p className="card-text">{id}</p>
             <p className="card-text">{price}</p>
-            <Link to="/" className="btn btn-outline-dark">
+            <Link to="/" className="btn btn-outline-light">
               Add To Cart
             </Link>
           </div>

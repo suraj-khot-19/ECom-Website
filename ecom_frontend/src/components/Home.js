@@ -4,6 +4,7 @@ import Card from "./Card";
 export default function Home() {
   // state
   const [product, setProduct] = useState([]);
+  const [fetchError, setFetchError] = useState(false);
 
   //   fetch products
   const getProducts = async () => {
@@ -22,7 +23,8 @@ export default function Home() {
       //setting data
       setProduct(data);
     } catch (error) {
-      console.log(error);
+      //if error is came while fetching
+      setFetchError(true);
     }
   };
 
@@ -34,11 +36,19 @@ export default function Home() {
   return (
     <>
       <div className="container">
-        <div className="row">
-          {product.map((e) => {
-            return <Card key={e.productId} product={e} />;
-          })}
-        </div>
+        {fetchError ? (
+          <div className="container d-flex justify-content-center align-items-center min-vh-100 text-center">
+            <h3>
+              Something went wrong <br /> while fetching data from server ...
+            </h3>
+          </div>
+        ) : (
+          <div className="row">
+            {product.map((e) => {
+              return <Card key={e.productId} product={e} />;
+            })}
+          </div>
+        )}
       </div>
     </>
   );

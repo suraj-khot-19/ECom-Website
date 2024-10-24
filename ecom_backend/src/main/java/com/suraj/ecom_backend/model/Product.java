@@ -1,5 +1,6 @@
 package com.suraj.ecom_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +23,8 @@ public class Product {
     private int id;
     private String name;
     private String disc;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-mm-yyyy") //store the date in format dd-mm-yyyy
     private Date release_date;
     private BigDecimal price;
     private String brand;

@@ -3,9 +3,7 @@ package com.suraj.ecom_backend.controller;
 import com.suraj.ecom_backend.model.Product;
 import com.suraj.ecom_backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,8 +22,14 @@ public class ProductController {
     ProductService service;
 
     //get all products
-    @RequestMapping("/products")
+    @GetMapping("/products")
     public List<Product> getAllProducts(){
         return service.getAllProducts();
+    }
+
+    //get one product by it id
+    @GetMapping("/product/{id}")
+    public Product getProductById(@PathVariable int id){
+        return service.getProductById(id);
     }
 }

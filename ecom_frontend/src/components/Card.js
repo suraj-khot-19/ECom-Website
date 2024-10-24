@@ -1,10 +1,9 @@
-import React from "react";
 import { Link } from "react-router-dom";
 function Card(props) {
   const { id, name, brand, price } = props.product;
   return (
     <>
-      <div className="col-xl-3 col-sm-6 col-md-4">
+      <Link to={`product/${id}`} style={{ textDecoration: 'none' }}>
         <div className="card m-2">
           <div className="card-body">
             <h5 className="card-title">{name}</h5>
@@ -16,7 +15,7 @@ function Card(props) {
             </Link>
           </div>
         </div>
-      </div>
+      </Link>
     </>
   );
 }

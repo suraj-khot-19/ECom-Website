@@ -31,7 +31,7 @@ export default function Home() {
   //useeffect
   useEffect(() => {
     getProducts();
-    console.log("products:", product);
+    console.log(product)
     // eslint-disable-next-line 
   }, []);
 
@@ -47,10 +47,13 @@ export default function Home() {
         ) : (
           <div className="row">
             {product.map((e) => {
-              return <Card key={e.id} product={e} />;
+              return <div className="col-xl-3 col-sm-6 col-md-4" key={e.id}>
+                <Card product={e} />
+              </div>
             })}
           </div>
         )}
+
 
         <div className="mb-5">
           {/* empty space */}

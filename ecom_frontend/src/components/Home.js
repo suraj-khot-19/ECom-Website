@@ -8,7 +8,7 @@ export default function Home() {
 
   //   fetch products
   const getProducts = async () => {
-    const url = "http://localhost:8080/products";
+    const url = "http://localhost:8080/api/products";
 
     // try catch
     try {
@@ -31,11 +31,13 @@ export default function Home() {
   //useeffect
   useEffect(() => {
     getProducts();
+    console.log("products:", product);
+    // eslint-disable-next-line 
   }, []);
 
   return (
     <>
-      <div className="container">
+      <div className="container mt-5">
         {fetchError ? (
           <div className="container d-flex justify-content-center align-items-center min-vh-100 text-center">
             <h3>
@@ -45,10 +47,14 @@ export default function Home() {
         ) : (
           <div className="row">
             {product.map((e) => {
-              return <Card key={e.productId} product={e} />;
+              return <Card key={e.id} product={e} />;
             })}
           </div>
         )}
+
+        <div className="mb-5">
+          {/* empty space */}
+        </div>
       </div>
     </>
   );

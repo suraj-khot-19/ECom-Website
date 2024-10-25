@@ -1,37 +1,88 @@
 import React, { useState } from 'react'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 
 function AddProduct() {
 
+    // Initialize useNavigate
+    const navigate = useNavigate();
+
+
     // prooduct
-    const [product, setProduct] = useState({ name: '', disc: '', release_date: '', price: '', brand: '', category: '', available: false, quantity: 0 });
+    const [product, setProduct] = useState({
+        name: '',
+        disc: '',
+        release_date: '',
+        price: 0,
+        brand: '',
+        category: '',
+        available: false,
+        quantity: 0
+    });
 
     // image
     const [image, setImage] = useState(null)
 
+    // handelinng input change
     function handelOnChangeForm(e) {
         const { name, value } = e.target;
         setProduct({ ...product, [name]: value });
     }
 
-
+    // handel image change
     const handleImageChange = (e) => {
         setImage(e.target.files[0]);
-        console.log(image);
     };
 
-    function handelSubmit(e) {
+
+    // handel form submit
+    async function handleSubmit(e) {
+        // do not reload
         e.preventDefault();
+
+        // handel image alert
+        if (!image) {
+            alert("Please upload an image.");
+            return;
+        }
+
+        // creating form data
+        const formData = new FormData(); //a set of key/value pairs 
+        formData.append("file", image);
+        formData.append("product", new Blob( // JavaScript-native format
+            [JSON.stringify(product)],
+            { type: "application/json" }
+        ));
+
+        try {
+            const response = await axios.post("http://localhost:8080/api/product", formData, {
+                headers: {
+                    // multipart/form-data
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            alert("Product added successfully");
+
+            //if 201
+            if (response.status === 201) {
+                navigate('/')
+            }
+        } catch (error) {
+            alert("Error adding product: ");
+        }
     }
 
     return (
         <>
             <div className="container">
-                <div className="my-4 text-center">
-                    <h3>Add Product</h3>
+                <div className="my-5 text-center">
+                    <h3>Add a Product</h3>
                 </div>
-                <form onSubmit={handelSubmit}>
+                {/* form */}
+                <form onSubmit={handleSubmit}>
                     <div className='row mb-3'>
                         <div className="col">
+
                             {/* name */}
                             <label htmlFor="name" className="form-label">Product Name</label>
                             <input type="text" className="form-control" id="name" name='name' placeholder='Asus Vivobook 15 Pro' value={product.name} onChange={handelOnChangeForm} />
@@ -54,7 +105,7 @@ function AddProduct() {
                         <div className="col">
                             {/* price */}
                             <label htmlFor="price" className="form-label">Product Price</label>
-                            <input type="text" className="form-control" id="price" placeholder='70000 RS' name='price' value={product.price} onChange={handelOnChangeForm} />
+                            <input type="number" className="form-control" id="price" placeholder='70000 RS' name='price' value={product.price} onChange={handelOnChangeForm} />
                         </div>
 
                         {/* category */}
@@ -89,16 +140,21 @@ function AddProduct() {
                         {/* File */}
                         <div className="col">
                             <label htmlFor="img" className="form-label">Upload Photo</label>
-                            <input type="file" className="form-control" id="img" name="img" accept="image/*" onChange={handleImageChange} />
+                            <input type="file" className="form-control" id="img" onChange={handleImageChange} />
                         </div>
                     </div>
 
 
                     {/* available */}
                     <div className="mb-3 form-check">
-                        <input type="checkbox" className="form-check-input" id="pavailable" checked={product.available} onChange={(e) =>
-                            setProduct({ ...product, available: e.target.checked })
-                        } />
+                        <input type="checkbox" className="form-check-input" id="pavailable"
+                            //handel checked
+                            checked={product.available}
+                            //handle available 
+                            onChange={(e) =>
+                                setProduct({ ...product, available: e.target.checked })
+                            }
+                        />
                         <label className="form-check-label" htmlFor="pavailable">Product Available</label>
                     </div>
 

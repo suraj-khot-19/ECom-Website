@@ -31,7 +31,6 @@ export default function Home() {
   //useeffect
   useEffect(() => {
     getProducts();
-    console.log(product)
     // eslint-disable-next-line 
   }, []);
 

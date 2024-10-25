@@ -10,9 +10,9 @@ function Card(props) {
             <p className="card-text">{brand}</p>
             <p className="card-text">{id}</p>
             <p className="card-text">{price}</p>
-            <Link to="/" className="btn btn-outline-light">
+            <button className="btn btn-outline-light">
               Add To Cart
-            </Link>
+            </button>
           </div>
         </div>
       </Link>

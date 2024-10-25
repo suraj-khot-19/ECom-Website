@@ -22,6 +22,6 @@ public class ProductService {
 
     //get product by its id
     public Product getProductById(int id) {
-        return repo.findById(id).orElse(new Product());
+        return repo.findById(id).orElse(null);
     }
 }

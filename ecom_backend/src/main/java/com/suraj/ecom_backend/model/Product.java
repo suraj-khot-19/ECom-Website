@@ -1,10 +1,7 @@
 package com.suraj.ecom_backend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,11 +21,17 @@ public class Product {
     private String name;
     private String disc;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-mm-yyyy") //store the date in format dd-mm-yyyy
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy") //store the date in format dd-mm-yyyy //M must capital
     private Date release_date;
     private BigDecimal price;
     private String brand;
     private  String category;
     private boolean available;
     private int quantity;
+
+    //image
+    private String imgType;
+    private String imgName;
+    @Lob //large object type
+    private byte[] imgData;
 }

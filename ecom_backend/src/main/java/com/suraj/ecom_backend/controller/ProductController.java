@@ -5,6 +5,7 @@ import com.suraj.ecom_backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,5 +52,16 @@ public class ProductController {
         catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    //get product image
+    @GetMapping("/product/{id}/image")
+    public ResponseEntity<byte[]> getProductImageById(@PathVariable int id){
+        Product product=service.getProductById(id);
+
+        return ResponseEntity.
+                ok(). //status
+                contentType(MediaType.valueOf(product.getImgType())).  //content type
+                body(product.getImgData()); //image in byte
     }
 }

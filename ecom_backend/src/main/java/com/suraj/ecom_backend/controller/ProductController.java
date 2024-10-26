@@ -4,7 +4,6 @@ import com.suraj.ecom_backend.model.Product;
 import com.suraj.ecom_backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,25 +67,27 @@ public class ProductController {
     //update an existing product
     @PutMapping("/product/update/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable int id, @RequestPart Product product, @RequestPart MultipartFile file) {
-       Product updated=null;
-       try{
-           updated=service.updateProduct(product,file);
-           return new ResponseEntity<>(HttpStatus.OK);
-       } catch (IOException e) {
-           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-       }
+        Product updated = null;
+        try {
+            updated = service.updateProduct(id, product, file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (updated != null)
+            return new ResponseEntity<>(HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     //delete a product
     @DeleteMapping("product/delete/{id}")
-    public ResponseEntity<?> deleteProductById(@PathVariable int id){
+    public ResponseEntity<?> deleteProductById(@PathVariable int id) {
         //check product exist
-        Product product=service.getProductById(id);
-        if(product!=null) {
+        Product product = service.getProductById(id);
+        if (product != null) {
             service.deleteProductById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

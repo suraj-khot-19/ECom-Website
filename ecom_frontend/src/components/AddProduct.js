@@ -75,7 +75,7 @@ function AddProduct() {
                 {/* form */}
                 <form onSubmit={handleSubmit}>
                     <div className='row mb-3'>
-                        <div className="col">
+                        <div className="col-md-12 col-lg-6 mb-3">
 
                             {/* name */}
                             <label htmlFor="name" className="form-label">Product Name</label>
@@ -83,7 +83,7 @@ function AddProduct() {
                         </div>
 
                         {/* brand */}
-                        <div className="col">
+                        <div className="col-md-12 col-lg-6 mb-3">
                             <label htmlFor="brand" className="form-label">Product Brand</label>
                             <input type="text" className="form-control" id="brand" placeholder='Asus' name='brand' value={product.brand} onChange={handelOnChangeForm} required />
                         </div>
@@ -96,14 +96,14 @@ function AddProduct() {
                     </div>
 
                     <div className='row mb-3'>
-                        <div className="col">
+                        <div className="col-md-12 col-lg-6 mb-3">
                             {/* price */}
                             <label htmlFor="price" className="form-label">Product Price</label>
                             <input type="number" className="form-control" id="price" placeholder='70000 RS' name='price' value={product.price} onChange={handelOnChangeForm} required />
                         </div>
 
                         {/* category */}
-                        <div className="col">
+                        <div className="col-md-12 col-lg-6 mb-3">
                             <label htmlFor="category" className="form-label">Product Category</label>
                             <select name="category" className="form-select" value={product.category} onChange={handelOnChangeForm} required  >
                                 <option value=''>Select Category</option>
@@ -119,20 +119,20 @@ function AddProduct() {
                     </div>
 
                     <div className="row mb-3">
-                        <div className="col">
+                        <div className="col-md-12 col-lg-4 mb-3">
                             {/* Quantity */}
                             <label htmlFor="quantity" className="form-label">Product Quantity</label>
                             <input type="number" className="form-control" id="quantity" placeholder='5' name='quantity' value={product.quantity} onChange={handelOnChangeForm} required />
                         </div>
 
                         {/* Date */}
-                        <div className="col">
+                        <div className="col-md-12 col-lg-4  mb-3">
                             <label htmlFor="date" className="form-label">Product Release Date</label>
                             <input type="date" className="form-control" id="date" name="release_date" placeholder='date' value={product.release_date} onChange={handelOnChangeForm} required />
                         </div>
 
                         {/* File */}
-                        <div className="col">
+                        <div className="col-md-12 col-lg-4  mb-3">
                             <label htmlFor="img" className="form-label">Upload Photo</label>
                             <input type="file" className="form-control" id="img" onChange={handleImageChange} required />
                         </div>

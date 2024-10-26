@@ -1,24 +1,76 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
 
-function AddProduct() {
-
+function UpdateProd() {
     // Initialize useNavigate
     const navigate = useNavigate();
 
+    //get id from parameter which is comming as id
+    const { id } = useParams();
+
+    //to load product data
+    useEffect(() => {
+        loadData();
+        fetchImage();
+        // eslint-disable-next-line 
+    }, []);
+
+    //to load product data
+    async function loadData() {
+        const url = `http://localhost:8080/api/product/${id}`;
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const data = await response.json();
+        if (response.status === 200) {
+            setProduct({
+                name: data.name,
+                disc: data.disc,
+                release_date: data.release_date,
+                price: data.price,
+                brand: data.brand,
+                category: data.category,
+                available: data.available,
+                quantity: data.quantity
+            })
+        }
+    }
+
+    // to load image
+    // function to fetch product image
+    async function fetchImage() {
+        let url = ` http://localhost:8080/api/product/${id}/image`;
+        try {
+            // fire to get
+            const response = await axios.get(
+                url,
+                {
+                    // response type is blob
+                    responseType: 'blob'
+                }
+            );
+            const imgFile = await urlToFile(response.data, response.data.imgName);
+            setImage(imgFile);
+        } catch (error) {
+            console.log(error);
+            setImage('');
+        }
+    }
+
+    // converting imag to file
+    const urlToFile = async (blobData, fileName) => {
+        const file = new File([blobData], fileName, { type: blobData.type });
+        return file;
+    }
+
+
 
     // prooduct
-    const [product, setProduct] = useState({
-        name: '',
-        disc: '',
-        release_date: '',
-        price: 1000,
-        brand: '',
-        category: '',
-        available: false,
-        quantity: 1
-    });
+    const [product, setProduct] = useState({});
 
     // image
     const [image, setImage] = useState(null)
@@ -43,31 +95,35 @@ function AddProduct() {
         // creating form data
         const formData = new FormData(); //a set of key/value pairs 
         formData.append("file", image);
-        formData.append("product", new Blob( // JavaScript-native format
-            [JSON.stringify(product)],
-            { type: "application/json" }
-        ));
+        console.log("id:", id)
+        formData.append("product",
+            new Blob( // JavaScript-native format
+                [JSON.stringify(product)],
+                { type: "application/json" }
+            ));
 
         try {
-            const response = await axios.post("http://localhost:8080/api/product", formData, {
+            const response = await axios.put(`http://localhost:8080/api/product/update/${id}`, formData, {
                 headers: {
                     // multipart/form-data
                     "Content-Type": "multipart/form-data",
                 },
             });
 
-            //if 201
-            alert("Product added successfully");
-            if (response.status === 201) {
+            //if 200
+            if (response.status === 200) {
+                alert("Product updated successfully");
                 navigate('/')
             }
         } catch (error) {
-            alert("Error adding product: ");
+            alert("Error updating product: ");
+            navigate("/");
         }
     }
 
     return (
-        <>
+        <div>
+
             <div className="container">
                 <div className="my-5 text-center">
                     <h3>Add a Product</h3>
@@ -133,11 +189,17 @@ function AddProduct() {
 
                         {/* File */}
                         <div className="col">
-                            <label htmlFor="img" className="form-label">Upload Photo</label>
-                            <input type="file" className="form-control" id="img" onChange={handleImageChange} required />
+                            <label htmlFor="img" className="form-label">Upload New Photo here</label>
+                            <img src={image ? URL.createObjectURL(image) : "image unavailable"} alt='img' style={{
+                                width: '100%',
+                                height: '180px',
+                                objectFit: 'cover',
+                                padding: '3px',
+                                margin: '0'
+                            }} />
+                            <input type="file" className="form-control" id="img" placeholder='upload image' onChange={handleImageChange} />
                         </div>
                     </div>
-
 
                     {/* available */}
                     <div className="mb-3 form-check">
@@ -152,12 +214,13 @@ function AddProduct() {
                         <label className="form-check-label" htmlFor="pavailable">Product Available</label>
                     </div>
 
+
                     {/* submit */}
                     <button type="submit" className="btn btn-outline-light">Submit</button>
                 </form>
             </div>
-        </>
+        </div>
     )
 }
 
-export default AddProduct
+export default UpdateProd

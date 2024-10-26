@@ -2,8 +2,8 @@ package com.suraj.ecom_backend.service;
 
 import com.suraj.ecom_backend.model.Product;
 import com.suraj.ecom_backend.repository.ProductRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,14 +37,14 @@ public class ProductService {
     }
 
     //update product
-    public void updateProduct(Product product, MultipartFile file) throws IOException {
+    public Product updateProduct(Product product, MultipartFile file) throws IOException {
         //handel file
         product.setImgType(file.getContentType());
         product.setImgData(file.getBytes());
         product.setImgName(file.getName());
 
         //save it
-        repo.save(product);
+        return repo.save(product);
     }
 
     //delete product

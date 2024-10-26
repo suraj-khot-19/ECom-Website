@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -65,23 +66,15 @@ public class ProductController {
     }
 
     //update an existing product
-    @PutMapping("/product/update")
-    public ResponseEntity<?> updateProduct(@RequestPart int id, @RequestPart Product product, @RequestPart MultipartFile file) {
-        // check if product is there
-        Product product1 = service.getProductById(id);
-        if (product1 == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        //if there ask service to update it
-        else {
-            //as it contains byte file may throw exception
-            try {
-                service.updateProduct(product,file);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } catch (Exception e) {
-                return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        }
+    @PutMapping("/product/update/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable int id, @RequestPart Product product, @RequestPart MultipartFile file) {
+       Product updated=null;
+       try{
+           updated=service.updateProduct(product,file);
+           return new ResponseEntity<>(HttpStatus.OK);
+       } catch (IOException e) {
+           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+       }
     }
 
     //delete a product

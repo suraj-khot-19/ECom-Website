@@ -1,5 +1,4 @@
 package com.suraj.ecom_backend.model;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity //create table for me
@@ -21,8 +21,8 @@ public class Product {
     private String name;
     private String disc;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy") //store the date in format dd-mm-yyyy //M must capital
-    private Date release_date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd") //store the date in format dd-mm-yyyy //M must capital
+    private LocalDate release_date;
     private BigDecimal price;
     private String brand;
     private  String category;

@@ -9,6 +9,7 @@ function Card(props) {
   // effect
   useEffect(() => {
     fetchImage();
+    // eslint-disable-next-line 
   }, [id])
 
 
@@ -24,7 +25,6 @@ function Card(props) {
           responseType: 'blob'
         }
       );
-      console.log("response:", response)
       const imgurl = URL.createObjectURL((await response).data);
       setImage(imgurl);
     } catch (error) {
@@ -40,14 +40,15 @@ function Card(props) {
           <img className="card-img-top" alt="product img" src={image} />
           <div className="card-body">
             <h5 className="card-title">{name}</h5>
-            <p className="card-text">{brand}</p>
-            <p className="card-text">{id}</p>
-            <p className="card-text">{price}</p>
-            <button disabled={!available} className="btn btn-outline-light">
-              {
-                available ? 'Add To Cart' : 'Out Of Stock'
-              }
-            </button>
+            <p className="card-text"><i style={{ color: 'cyan' }}>{brand}</i></p>
+            <p className="card-text">{price} Rs</p>
+            <div className="text-center">
+              <button disabled={!available} className="btn btn-outline-light">
+                {
+                  available ? 'Add To Cart' : 'Out Of Stock'
+                }
+              </button>
+            </div>
           </div>
         </div>
       </Link>

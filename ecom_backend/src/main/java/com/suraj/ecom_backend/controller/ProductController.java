@@ -17,14 +17,14 @@ import java.util.List;
 @RequestMapping("/api")
 public class ProductController {
 
+    //object of service
+    @Autowired
+    ProductService service;
+
     @RequestMapping("/")
     public String greet() {
         return "Hello i am online";
     }
-
-    //object of service
-    @Autowired
-    ProductService service;
 
     //get all products
     @GetMapping("/products")
@@ -44,24 +44,44 @@ public class ProductController {
 
     //add a product(with product and image also)
     @PostMapping("/product")
-    public ResponseEntity<?> addProduct(@RequestPart Product product, @RequestPart MultipartFile file){
-        try{
-           Product productX= service.addProduct(product,file);
-               return new ResponseEntity<>(productX,HttpStatus.CREATED);
-                  }
-        catch(Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<?> addProduct(@RequestPart Product product, @RequestPart MultipartFile file) {
+        try {
+            Product productX = service.addProduct(product, file);
+            return new ResponseEntity<>(productX, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     //get product image
     @GetMapping("/product/{id}/image")
-    public ResponseEntity<byte[]> getProductImageById(@PathVariable int id){
-        Product product=service.getProductById(id);
+    public ResponseEntity<byte[]> getProductImageById(@PathVariable int id) {
+        Product product = service.getProductById(id);
 
         return ResponseEntity.
                 ok(). //status
-                contentType(MediaType.valueOf(product.getImgType())).  //content type
-                body(product.getImgData()); //image in byte
+                        contentType(MediaType.valueOf(product.getImgType())).  //content type
+                        body(product.getImgData()); //image in byte
+    }
+
+    //update an existing product
+    @PutMapping("/product/update")
+    public ResponseEntity<?> updateProduct(@RequestPart int id, @RequestPart Product product, @RequestPart MultipartFile file) {
+        // check if product is there
+        Product product1 = service.getProductById(id);
+        if (product1 == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        //if there ask service to update it
+        else {
+            //as it contains byte file may throw exception
+            try {
+                service.updateProduct(product,file);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } catch (Exception e) {
+                return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
+
     }
 }

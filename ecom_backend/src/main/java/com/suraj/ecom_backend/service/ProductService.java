@@ -27,11 +27,22 @@ public class ProductService {
         return repo.findById(id).orElse(null);
     }
 
+    //add new product
     public Product addProduct(Product product, MultipartFile file) throws IOException {
         //getting image and its prop
         product.setImgType(file.getContentType());
         product.setImgName(file.getOriginalFilename());
         product.setImgData(file.getBytes());
-     return repo.save(product);
+        return repo.save(product);
+    }
+
+    public void updateProduct(Product product, MultipartFile file) throws IOException {
+        //handel file
+        product.setImgType(file.getContentType());
+        product.setImgData(file.getBytes());
+        product.setImgName(file.getName());
+
+        //save it
+        repo.save(product);
     }
 }

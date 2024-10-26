@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
 function Card(props) {
-  const { id, name, brand, price } = props.product;
+  const { id, name, brand, price, available } = props.product;
 
   const [image, setImage] = useState();
 
@@ -43,8 +43,10 @@ function Card(props) {
             <p className="card-text">{brand}</p>
             <p className="card-text">{id}</p>
             <p className="card-text">{price}</p>
-            <button className="btn btn-outline-light">
-              Add To Cart
+            <button disabled={!available} className="btn btn-outline-light">
+              {
+                available ? 'Add To Cart' : 'Out Of Stock'
+              }
             </button>
           </div>
         </div>

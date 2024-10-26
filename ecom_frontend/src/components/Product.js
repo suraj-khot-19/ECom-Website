@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import notFoundImage from './notfound.png';
 import axios from 'axios';
 
 export default function Product() {
+    // to navigate
+    const navigate = useNavigate();
+
     const [singleProduct, setSingleProduct] = useState([]);
     const [notFound, setNotFound] = useState(false)
 
@@ -56,7 +59,26 @@ export default function Product() {
             fetchImageOfProduct();
         }
         // eslint-disable-next-line
-    }, [id])
+    }, [id]);
+
+    async function handelDelete() {
+        const url = `http://localhost:8080/api/product/delete/${id}`
+        try {
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+
+            if (response.status === 200) {
+                alert('Product deleted sucessfully!');
+                navigate('/');
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    }
 
     const { name, disc, price, brand, release_date, category, available, quantity } = singleProduct;
     return (
@@ -104,10 +126,10 @@ export default function Product() {
                                     <p className="card-text"><i>{release_date}</i></p>
 
                                     <div className="d-flex">
-                                        <button to="/" className="btn btn-outline-light me-2">
+                                        <Link to={`/product/update/${id}`} className="btn btn-outline-light me-2">
                                             Update
-                                        </button>
-                                        <button to="/" className="btn btn-outline-light">
+                                        </Link>
+                                        <button onClick={handelDelete} className="btn btn-outline-light">
                                             Delete
                                         </button>
                                     </div>

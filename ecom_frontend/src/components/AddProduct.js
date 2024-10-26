@@ -13,11 +13,11 @@ function AddProduct() {
         name: '',
         disc: '',
         release_date: '',
-        price: 0,
+        price: 1000,
         brand: '',
         category: '',
         available: false,
-        quantity: 0
+        quantity: 1
     });
 
     // image
@@ -85,33 +85,33 @@ function AddProduct() {
 
                             {/* name */}
                             <label htmlFor="name" className="form-label">Product Name</label>
-                            <input type="text" className="form-control" id="name" name='name' placeholder='Asus Vivobook 15 Pro' value={product.name} onChange={handelOnChangeForm} />
+                            <input type="text" className="form-control" id="name" name='name' placeholder='Asus Vivobook 15 Pro' value={product.name} onChange={handelOnChangeForm} required />
                         </div>
 
                         {/* brand */}
                         <div className="col">
                             <label htmlFor="brand" className="form-label">Product Brand</label>
-                            <input type="text" className="form-control" id="brand" placeholder='Asus' name='brand' value={product.brand} onChange={handelOnChangeForm} />
+                            <input type="text" className="form-control" id="brand" placeholder='Asus' name='brand' value={product.brand} onChange={handelOnChangeForm} required />
                         </div>
                     </div>
 
                     {/* descition */}
                     <div className="mb-3">
                         <label htmlFor="descrition" className="form-label">Product Desctiption</label>
-                        <input type="text" className="form-control" id="descrition" placeholder='Good laptop for gaming and coding. love dev...' name='disc' value={product.disc} onChange={handelOnChangeForm} />
+                        <input type="text" className="form-control" id="descrition" placeholder='Good laptop for gaming and coding. love dev...' name='disc' value={product.disc} onChange={handelOnChangeForm} required />
                     </div>
 
                     <div className='row mb-3'>
                         <div className="col">
                             {/* price */}
                             <label htmlFor="price" className="form-label">Product Price</label>
-                            <input type="number" className="form-control" id="price" placeholder='70000 RS' name='price' value={product.price} onChange={handelOnChangeForm} />
+                            <input type="number" className="form-control" id="price" placeholder='70000 RS' name='price' value={product.price} onChange={handelOnChangeForm} required />
                         </div>
 
                         {/* category */}
                         <div className="col">
                             <label htmlFor="category" className="form-label">Product Category</label>
-                            <select name="category" className="form-select" value={product.category} onChange={handelOnChangeForm}>
+                            <select name="category" className="form-select" value={product.category} onChange={handelOnChangeForm} required  >
                                 <option value=''>Select Category</option>
                                 <option value="Laptop">Laptop</option>
                                 <option value="Headphone">Headphone</option>
@@ -128,19 +128,19 @@ function AddProduct() {
                         <div className="col">
                             {/* Quantity */}
                             <label htmlFor="quantity" className="form-label">Product Quantity</label>
-                            <input type="number" className="form-control" id="quantity" placeholder='5' name='quantity' value={product.quantity} onChange={handelOnChangeForm} />
+                            <input type="number" className="form-control" id="quantity" placeholder='5' name='quantity' value={product.quantity} onChange={handelOnChangeForm} required />
                         </div>
 
                         {/* Date */}
                         <div className="col">
                             <label htmlFor="date" className="form-label">Product Release Date</label>
-                            <input type="date" className="form-control" id="date" name="release_date" placeholder='date' value={product.release_date} onChange={handelOnChangeForm} />
+                            <input type="date" className="form-control" id="date" name="release_date" placeholder='date' value={product.release_date} onChange={handelOnChangeForm} required />
                         </div>
 
                         {/* File */}
                         <div className="col">
                             <label htmlFor="img" className="form-label">Upload Photo</label>
-                            <input type="file" className="form-control" id="img" onChange={handleImageChange} />
+                            <input type="file" className="form-control" id="img" onChange={handleImageChange} required />
                         </div>
                     </div>
 

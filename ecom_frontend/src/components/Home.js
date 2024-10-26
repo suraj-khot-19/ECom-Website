@@ -1,38 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Card from "./Card";
 
-export default function Home() {
-  // state
-  const [product, setProduct] = useState([]);
-  const [fetchError, setFetchError] = useState(false);
+export default function Home(props) {
+  //take from app.js
+  const { product, fetchError } = props;
 
-  //   fetch products
-  const getProducts = async () => {
-    const url = "http://localhost:8080/api/products";
-
-    // try catch
-    try {
-      const jsonData = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      let data = await jsonData.json();
-
-      //setting data
-      setProduct(data);
-    } catch (error) {
-      //if error is came while fetching
-      setFetchError(true);
-    }
-  };
-
-  //useeffect
+  //load when changes
   useEffect(() => {
-    getProducts();
-    // eslint-disable-next-line 
-  }, []);
+  }, [product, fetchError])
 
   return (
     <>
@@ -45,11 +20,16 @@ export default function Home() {
           </div>
         ) : (
           <div className="row">
-            {product.map((e) => {
-              return <div className="col-xl-3 col-sm-6 col-md-4" key={e.id}>
-                <Card product={e} />
+            {product.length === 0 ?
+              <div className="container text-center" style={{ marginTop: '30vh' }}>
+                <h5>No Product Found....</h5>
               </div>
-            })}
+              :
+              product?.map((e) => {
+                return <div className="col-xl-3 col-sm-6 col-md-4" key={e.id}>
+                  <Card product={e} cart={props.cart} setCart={props.setCart} />
+                </div>
+              })}
           </div>
         )}
 

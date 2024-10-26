@@ -1,7 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-function Nav() {
+function Nav(props) {
+  //take from app.js
+  const { product, fetchError } = props;
+
+  //load when changes
+  useEffect(() => {
+
+  }, [product, fetchError])
+
+  const [keyword, setKeyword] = useState('');
+
+  function handelChange(e) {
+    e.target.name = e.target.value;
+    setKeyword(e.target.value);
+  }
+
+  useEffect(() => {
+    searching();
+  }, [keyword])
+
+  async function searching() {
+    console.log("searching", keyword)
+    const url = `http://localhost:8080/api/product/search?keyword=${keyword}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      //set that product
+      props.setProduct(data);
+    } catch (error) {
+      alert('error while fetching');
+    }
+  }
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
@@ -34,7 +71,7 @@ function Nav() {
               </li>
             </ul>
             <div className="me-3">
-              <Link to="/">
+              <Link to="/cart">
                 <i
                   className="fa-solid fa-cart-shopping fa-xl"
                   style={{ color: "white", cursor: "pointer" }}
@@ -42,7 +79,7 @@ function Nav() {
               </Link>
             </div>
             <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword" value={keyword} onChange={handelChange} />
             </form>
           </div>
         </div>

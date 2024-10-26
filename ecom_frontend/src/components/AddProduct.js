@@ -62,7 +62,7 @@ function AddProduct() {
                 navigate('/')
             }
         } catch (error) {
-            alert("Error adding product: ");
+            alert("Error adding product:", error);
         }
     }
 
@@ -133,7 +133,7 @@ function AddProduct() {
 
                         {/* File */}
                         <div className="col-md-12 col-lg-4  mb-3">
-                            <label htmlFor="img" className="form-label">Upload Photo</label>
+                            <label htmlFor="img" className="form-label">Upload Photo{' (<1MB)'}</label>
                             <input type="file" className="form-control" id="img" onChange={handleImageChange} required />
                         </div>
                     </div>

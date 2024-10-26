@@ -12,7 +12,9 @@ function Card(props) {
     // eslint-disable-next-line 
   }, [id])
 
-
+  function handelcart() {
+    props.setCart(props.product);
+  }
   // function to fetch product image
   async function fetchImage() {
     let url = ` http://localhost:8080/api/product/${id}/image`;
@@ -35,23 +37,24 @@ function Card(props) {
   }
   return (
     <>
-      <Link to={`product/${id}`} style={{ textDecoration: 'none' }}>
-        <div className="card m-2" style={{ color: 'white', backgroundColor: 'rgb(60,60,60,60)' }}>
-          <img className="card-img-top" alt="product img" src={image} />
+      <div className="card m-2" style={{ color: 'white', backgroundColor: 'rgb(60,60,60,60)' }}>
+        <Link to={`product/${id}`} style={{ color: 'white', backgroundColor: 'rgb(60,60,60,60)', textDecoration: 'none' }}>
+          <img className="card-img-top" alt="product img" src={image} height='300' style={{ objectFit: 'cover' }} />
           <div className="card-body">
             <h5 className="card-title">{name}</h5>
             <p className="card-text"><i style={{ color: 'cyan' }}>{brand}</i></p>
             <p className="card-text">{price} Rs</p>
-            <div className="text-center">
-              <button disabled={!available} className="btn btn-outline-light">
-                {
-                  available ? 'Add To Cart' : 'Out Of Stock'
-                }
-              </button>
-            </div>
+
           </div>
+        </Link>
+        <div className="text-center mt-2 mb-1">
+          <button disabled={!available} className="btn btn-outline-light" onClick={handelcart}>
+            {
+              available ? 'Add To Cart' : 'Out Of Stock'
+            }
+          </button>
         </div>
-      </Link>
+      </div>
     </>
   );
 }

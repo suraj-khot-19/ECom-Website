@@ -90,7 +90,7 @@ export default function Product() {
                     <img src={notFoundImage} alt='Product not found....' style={{ height: '80vh' }} /></div> :
 
                     //if product
-                    <div className="container m-auto h-100">
+                    <div className="container m-auto h-100 mt-5">
                         <div className='d-flex justify-content-center align-items-center h-100'>
 
                             {/* image */}

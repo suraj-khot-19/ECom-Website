@@ -7,7 +7,6 @@ function Nav(props) {
 
   //load when changes
   useEffect(() => {
-
   }, [product, fetchError])
 
   const [keyword, setKeyword] = useState('');
@@ -15,11 +14,8 @@ function Nav(props) {
   function handelChange(e) {
     e.target.name = e.target.value;
     setKeyword(e.target.value);
-  }
-
-  useEffect(() => {
     searching();
-  }, [keyword])
+  }
 
   async function searching() {
     console.log("searching", keyword)
@@ -39,6 +35,7 @@ function Nav(props) {
       alert('error while fetching');
     }
   }
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
@@ -59,9 +56,9 @@ function Nav(props) {
                 </Link>
               </li>
               <li className="nav-item dropdown">
-                <Link className="nav-link dropdown-toggle" to="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </Link>
+                <div className="nav-link dropdown-toggle" to="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Category
+                </div>
                 <ul className="dropdown-menu">
                   <li><Link className="dropdown-item" to="/">Action</Link></li>
                   <li><Link className="dropdown-item" to="/">Another action</Link></li>
@@ -79,8 +76,49 @@ function Nav(props) {
               </Link>
             </div>
             <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword" value={keyword} onChange={handelChange} />
+              <input
+                disabled={fetchError}
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                name="keyword"
+                value={keyword}
+                onChange={handelChange}
+              />
+
+              {product?.length > 0 && keyword.length >= 1 && (
+                <div
+                  className="dropdown-menu show w-100 mt-1 shadow position-absolute"
+                  style={{
+                    maxWidth: '200px',
+                    maxHeight: '250px',
+                    overflowY: 'auto',
+                    right: '22px',
+                    zIndex: '20',
+                    ...(product.length > 2
+                      ? { bottom: '-130px' }
+                      : { top: '100%' }), // Adjust based on product count
+                  }}
+                >
+                  {/* Close button */}
+                  <div className="shadow position-absolute" style={{ right: '5px', top: '5px', zIndex: '35' }}>
+                    <button onClick={() => setKeyword('')} type="button" className="btn-close btn-sm" aria-label="Close"></button>
+                  </div>
+
+                  {/* Products */}
+                  <div className="pt-2">
+                    {product.map((e) => (
+                      <Link to={`/product/${e.id}`} className="dropdown-item" key={e.id}>
+                        {e.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </form>
+
+
           </div>
         </div>
       </nav>

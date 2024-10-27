@@ -12,9 +12,6 @@ function Card(props) {
     // eslint-disable-next-line 
   }, [id])
 
-  function handelcart() {
-    props.setCart(props.product);
-  }
   // function to fetch product image
   async function fetchImage() {
     let url = ` http://localhost:8080/api/product/${id}/image`;
@@ -44,7 +41,7 @@ function Card(props) {
           {/* card body */}
 
           {/* badge */}
-          <div type="button" style={{ position: 'absolute', top: '10px', left: '2px', zIndex: '25' }}>
+          <div type="button" style={{ position: 'absolute', top: '10px', left: '5px', zIndex: '25' }}>
             <span className="translate-middle badge rounded-pill bg-warning">
               <i style={{ color: 'black' }}>{brand}</i>
             </span>
@@ -63,7 +60,7 @@ function Card(props) {
           </div>
         </Link>
         <div className="text-center mt-2 mb-1">
-          <button disabled={!available} className="btn btn-outline-light" onClick={handelcart}>
+          <button disabled={!available} className="btn btn-outline-light">
             {
               available ? 'Add To Cart' : 'Out Of Stock'
             }

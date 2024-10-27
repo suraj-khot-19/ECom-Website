@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import notfoundimg from './notfound.png';
 
-function UpdateProd(props) {
+function UpdateProd() {
+
     // Initialize useNavigate
     const navigate = useNavigate();
 
@@ -127,7 +128,6 @@ function UpdateProd(props) {
             if (response.status === 200) {
                 alert("Product updated successfully");
                 navigate('/')
-                props.setNeedToUpdate(true);
             }
             else {
                 setFetchError(true);

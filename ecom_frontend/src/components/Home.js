@@ -1,17 +1,46 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./Card";
 
-export default function Home(props) {
-  //take from app.js
-  const { product, fetchError } = props;
+export default function Home() {
 
-  //load when changes
+  //states
+  const [product, setProduct] = useState([])
+  const [fetchError, setFetchError] = useState(false)
+
+  //effect
   useEffect(() => {
-  }, [product, fetchError])
+    getProducts();
+  }, [])
+
+
+  //   fetch all products
+  const getProducts = async () => {
+    const url = "http://localhost:8080/api/products";
+
+    // try catch
+    try {
+      const jsonData = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      let data = await jsonData.json();
+
+      //setting data
+      setProduct(data);
+    } catch (error) {
+      //if error is came while fetching
+      setFetchError(true);
+    }
+  };
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="container mt-3 px-1">
+        <div className="my-2">
+          <h4 className="text-center">Welcome to Ecom-Website</h4>
+        </div>
         {fetchError ? (
           <div className="container d-flex justify-content-center align-items-center min-vh-100 text-center">
             <h3>
@@ -19,17 +48,19 @@ export default function Home(props) {
             </h3>
           </div>
         ) : (
-          <div className="row">
-            {product.length === 0 ?
-              <div className="container text-center" style={{ marginTop: '30vh' }}>
-                <h5>No Product Found....</h5>
-              </div>
-              :
-              product?.map((e) => {
-                return <div className="col-xl-3 col-sm-6 col-md-4" key={e.id}>
-                  <Card product={e} cart={props.cart} setCart={props.setCart} />
+          <div className="mx-auto">
+            <div className="row justify-content-center">
+              {product.length === 0 ?
+                <div className="container text-center" style={{ marginTop: '30vh' }}>
+                  <h5>No Product Found....</h5>
                 </div>
-              })}
+                :
+                product?.map((e) => {
+                  return <div className="col-xl-3 col-sm-6 col-md-4" key={e.id}>
+                    <Card product={e} />
+                  </div>
+                })}
+            </div>
           </div>
         )}
 

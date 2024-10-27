@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
-function Nav(props) {
-  //take from app.js
-  const { product, fetchError } = props;
-
-  //load when changes
-  useEffect(() => {
-  }, [product, fetchError])
-
-  //states
+function Nav() {
+  //state
+  const [product, setProduct] = useState([])
   const [keyword, setKeyword] = useState('');
 
   //handel seacrch form change
   function handelChange(e) {
     e.target.name = e.target.value;
+    //set keyword
     setKeyword(e.target.value);
     searching();
-    console.log("products", product)
   }
 
   //api request for search
@@ -33,7 +27,7 @@ function Nav(props) {
       });
       const data = await response.json();
       //set that product
-      props.setProduct(data);
+      setProduct(data);
     } catch (error) {
       alert('error while fetching');
     }
@@ -61,15 +55,15 @@ function Nav(props) {
 
               {/* add product */}
               <li className="nav-item">
-                <NavLink className={({ isActive }) => isActive ? 'nav-link active fw-bold' : 'nav-link'} aria-current="page" to="/product">
+                <Link className='nav-link' aria-current="page" to="/product">
                   Add Product
-                </NavLink>
+                </Link>
               </li>
 
-              {/* select category */}
+              {/* ----------------------------------------------------  select category ----------------------------------------------------  */}
               <li className="nav-item dropdown">
                 <div className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Category
+                  Category's
                 </div>
                 <ul className="dropdown-menu">
                   {
@@ -87,9 +81,9 @@ function Nav(props) {
               </li>
             </ul>
 
-            {/* search feature */}
+            {/* ---------------------------------------------------- search feature ---------------------------------------------------- */}
             <form className="d-flex" role="search" >
-              <input disabled={fetchError} className="form-control me-2" type="search" placeholder="Search Products" name="keyword" value={keyword} onChange={handelChange} />
+              <input className="form-control me-2" type="search" placeholder="Search Products" name="keyword" value={keyword} onChange={handelChange} />
 
               {
                 ///if searching then only
@@ -100,10 +94,7 @@ function Nav(props) {
                 >
                   {/* Close button */}
                   <div className="shadow position-absolute" style={{ right: '5px', top: '5px', zIndex: '35' }}>
-                    <button onClick={() => {
-                      props.setNeedToUpdate(true);
-                      setKeyword('');
-                    }} type="button" className="btn-close btn-sm" aria-label="Close"></button>
+                    <button onClick={() => { setKeyword(''); }} type="button" className="btn-close btn-sm" aria-label="Close"></button>
                   </div>
 
                   {/* list of products */}
@@ -125,13 +116,12 @@ function Nav(props) {
                               //after clicking category close search window
                               onClick={() => {
                                 setKeyword('');
-                                props.setNeedToUpdate(true);
                               }}
                               //if select perticular product
                               to={`/product/${e.id}`}
                               className="search-result-link"
                               style={{ textDecoration: 'none', color: 'rgb(200,200,200)' }}>
-                              <span>{e.name.length > 25 ? e.name.slice(0, 22) + "..." : e.name}</span>
+                              <span>{e.name}</span>
                             </Link>
                           </li>
                         ))

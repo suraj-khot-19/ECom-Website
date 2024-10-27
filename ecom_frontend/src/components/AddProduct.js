@@ -2,23 +2,14 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 
-function AddProduct(props) {
+function AddProduct() {
 
     // Initialize useNavigate
     const navigate = useNavigate();
 
 
     // prooduct
-    const [product, setProduct] = useState({
-        name: '',
-        disc: '',
-        release_date: '',
-        price: 1000,
-        brand: '',
-        category: '',
-        available: false,
-        quantity: 1
-    });
+    const [product, setProduct] = useState({ name: '', disc: '', release_date: '', price: 1000, brand: '', category: '', available: false, quantity: 1 });
 
     // image
     const [image, setImage] = useState(null)
@@ -60,7 +51,6 @@ function AddProduct(props) {
             alert("Product added successfully");
             if (response.status === 201) {
                 navigate('/')
-                props.setNeedToUpdate(true);
             }
         } catch (error) {
             alert("Error adding product:", error);

@@ -94,13 +94,22 @@ public class ProductController {
 
     //search product
     @GetMapping("product/search")
-    public ResponseEntity<List<Product>> searchProduct(@RequestParam String keyword){
-       List<Product> products= service.searchProduct(keyword);
-        if(products!=null){
-            return new ResponseEntity<>(products,HttpStatus.FOUND);
-        }
-        else{
+    public ResponseEntity<List<Product>> searchProduct(@RequestParam String keyword) {
+        List<Product> products = service.searchProduct(keyword);
+        if (products != null) {
+            return new ResponseEntity<>(products, HttpStatus.FOUND);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    //get product by category
+    @GetMapping("/product/category/{cat}")
+    public ResponseEntity<List<Product>> getProductByCategory(@PathVariable String cat) {
+        List<Product> product=service.getProductByCategory(cat);
+        if(product!=null)
+            return  new ResponseEntity<>(product,HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

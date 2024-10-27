@@ -73,4 +73,8 @@ public class ProductService {
     public List<Product> searchProduct(String keyword) {
         return repo.searchProductByKeyword(keyword);
     }
+
+    public List<Product> getProductByCategory(String cat) {
+        return repo.getProductByCategory(cat);
+    }
 }

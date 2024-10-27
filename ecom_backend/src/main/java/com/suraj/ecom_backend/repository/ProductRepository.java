@@ -15,4 +15,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "LOWER(p.brand) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(p.category) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Product> searchProductByKeyword(String keyword);
+
+    //product by category
+    @Query("SELECT p FROM Product p WHERE "+
+            "LOWER(p.category) LIKE LOWER(CONCAT('%',:cat,'%'))"
+    )
+    List<Product> getProductByCategory(String cat);
 }

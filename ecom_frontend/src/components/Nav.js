@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Nav(props) {
   //take from app.js
@@ -11,7 +11,6 @@ function Nav(props) {
 
   //states
   const [keyword, setKeyword] = useState('');
-  const [searchByCat, setSearchByCat] = useState({ bool: false, key: '' });
 
   //handel seacrch form change
   function handelChange(e) {
@@ -55,16 +54,16 @@ function Nav(props) {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               {/* home */}
               <li className="nav-item">
-                <Link className="nav-link" aria-current="page" to="/">
+                <NavLink className={({ isActive }) => isActive ? "nav-link active fw-bold" : "nav-link"} aria-current="page" to="/">
                   Home
-                </Link>
+                </NavLink>
               </li>
 
               {/* add product */}
               <li className="nav-item">
-                <Link className="nav-link" aria-current="page" to="/product">
+                <NavLink className={({ isActive }) => isActive ? 'nav-link active fw-bold' : 'nav-link'} aria-current="page" to="/product">
                   Add Product
-                </Link>
+                </NavLink>
               </li>
 
               {/* select category */}
@@ -75,53 +74,18 @@ function Nav(props) {
                 <ul className="dropdown-menu">
                   {
                     // category and its function
-                    cats.map((e) => {
+                    cats.map((cat) => {
                       return (
-                        <li key={e}>
-                          <span
-                            onClick={() => {
-                              // Separate products into matching and non-matching categories
-                              const selectedProds = product.filter((x) => x.category === e);
-                              const otherProds = product.filter((x) => x.category !== e);
-
-                              // Combine
-                              const sortedProds = [...selectedProds, ...otherProds];
-
-                              // Update 
-                              props.setProduct(sortedProds);
-
-                              //setSearchByCat
-                              setSearchByCat({ bool: true, key: e });
-                            }} className="dropdown-item">{e}</span>
+                        <li key={cat}>
+                          {/* go to category page */}
+                          <Link to={`product/category/${cat}`} className="dropdown-item">{cat}</Link>
                         </li>
                       );
                     })
-
                   }
-
                 </ul>
               </li>
-              {
-                // box after category 
-                searchByCat.bool && <div className="nav-item m-1 px-2 py-1 border">
-                  <div className="d-flex justify-content-center align-items-center">
-                    <span>{searchByCat.key}</span>
-                    <div className="shadow ms-2">
-                      <button onClick={() => {
-                        props.setNeedToUpdate(true);
-                        setSearchByCat({ bool: false, key: '' });
-                      }} type="button" className="btn-close btn-sm" aria-label="Close"></button>
-                    </div>
-                  </div>
-                </div>
-              }
             </ul>
-            <div className="me-3">
-              <Link to="/cart">
-                {/* shoping img */}
-                <i className="fa-solid fa-cart-shopping fa-xl" style={{ color: "white", cursor: "pointer" }} ></i>
-              </Link>
-            </div>
 
             {/* search feature */}
             <form className="d-flex" role="search" >

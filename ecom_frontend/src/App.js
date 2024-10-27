@@ -5,13 +5,12 @@ import Home from "./components/Home";
 import Product from "./components/Product";
 import AddProduct from "./components/AddProduct";
 import UpdateProduct from "./components/UpdateProd";
-import Cart from "./components/Cart";
+import SearchByCategory from "./components/SearchByCategory";
 
 function App() {
   //states
   const [product, setProduct] = useState([])
   const [fetchError, setFetchError] = useState(false)
-  const [cart, setCart] = useState([]);
   const [needToUpdate, setNeedToUpdate] = useState(false)
 
   //effect
@@ -53,11 +52,11 @@ function App() {
     <Router>
       <Nav product={product} fetchError={fetchError} setProduct={setProduct} setNeedToUpdate={setNeedToUpdate} />
       <Routes>
-        <Route path="/" element={<Home cart={cart} setCart={setCart} product={product} fetchError={fetchError} />} />
+        <Route path="/" element={<Home product={product} fetchError={fetchError} />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/product" element={<AddProduct setNeedToUpdate={setNeedToUpdate} />} />
         <Route path="/product/update/:id" element={<UpdateProduct setNeedToUpdate={setNeedToUpdate} />} />
-        <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
+        <Route path="/product/category/:cat" element={<SearchByCategory />} />
       </Routes>
     </Router>
   );

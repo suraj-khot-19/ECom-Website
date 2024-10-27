@@ -38,7 +38,7 @@ function Card(props) {
   return (
     <>
       <div className="card mx-2 my-5" style={{ color: 'white', backgroundColor: 'rgb(60,60,60,60)' }}>
-        <Link to={`product/${id}`} style={{ color: 'white', backgroundColor: 'rgb(60,60,60,60)', textDecoration: 'none' }}>
+        <Link to={`/product/${id}`} style={{ color: 'white', backgroundColor: 'rgb(60,60,60,60)', textDecoration: 'none' }}>
           {/* image */}
           <img className="card-img-top" alt="product img" src={image} height='300' style={{ objectFit: 'cover' }} />
           {/* card body */}

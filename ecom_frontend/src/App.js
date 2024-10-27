@@ -12,12 +12,20 @@ function App() {
   const [product, setProduct] = useState([])
   const [fetchError, setFetchError] = useState(false)
   const [cart, setCart] = useState([]);
-
+  const [needToUpdate, setNeedToUpdate] = useState(false)
 
   //effect
   useEffect(() => {
     getProducts();
   }, [])
+
+  useEffect(() => {
+    if (needToUpdate) {
+      getProducts();
+      console.log("need to update")
+    }
+  }, [needToUpdate])
+
 
   //   fetch all products
   const getProducts = async () => {
@@ -43,12 +51,12 @@ function App() {
 
   return (
     <Router>
-      <Nav product={product} fetchError={fetchError} setProduct={setProduct} />
+      <Nav product={product} fetchError={fetchError} setProduct={setProduct} setNeedToUpdate={setNeedToUpdate} />
       <Routes>
         <Route path="/" element={<Home cart={cart} setCart={setCart} product={product} fetchError={fetchError} />} />
         <Route path="/product/:id" element={<Product />} />
-        <Route path="/product" element={<AddProduct />} />
-        <Route path="/product/update/:id" element={<UpdateProduct />} />
+        <Route path="/product" element={<AddProduct setNeedToUpdate={setNeedToUpdate} />} />
+        <Route path="/product/update/:id" element={<UpdateProduct setNeedToUpdate={setNeedToUpdate} />} />
         <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
       </Routes>
     </Router>

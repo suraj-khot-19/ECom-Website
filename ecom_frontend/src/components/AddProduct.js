@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 
-function AddProduct() {
+function AddProduct(props) {
 
     // Initialize useNavigate
     const navigate = useNavigate();
@@ -60,6 +60,7 @@ function AddProduct() {
             alert("Product added successfully");
             if (response.status === 201) {
                 navigate('/')
+                props.setNeedToUpdate(true);
             }
         } catch (error) {
             alert("Error adding product:", error);

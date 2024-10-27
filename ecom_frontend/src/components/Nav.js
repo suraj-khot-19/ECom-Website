@@ -10,6 +10,7 @@ function Nav(props) {
   }, [product, fetchError])
 
   const [keyword, setKeyword] = useState('');
+  const [searchByCat, setSearchByCat] = useState({ bool: false, key: '' })
 
   function handelChange(e) {
     e.target.name = e.target.value;
@@ -35,6 +36,15 @@ function Nav(props) {
     }
   }
 
+  const cats = [
+    'Laptop',
+    'Headphone',
+    'Mobile',
+    'Electronics',
+    'Toys',
+    'Fashion',
+    'Shoes'];
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
@@ -46,11 +56,11 @@ function Nav(props) {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/">
+                <Link className="nav-link" aria-current="page" to="/">
                   Home
                 </Link>
               </li> <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/product">
+                <Link className="nav-link" aria-current="page" to="/product">
                   Add Product
                 </Link>
               </li>
@@ -59,12 +69,51 @@ function Nav(props) {
                   Category
                 </div>
                 <ul className="dropdown-menu">
-                  <li><Link className="dropdown-item" to="/">Action</Link></li>
-                  <li><Link className="dropdown-item" to="/">Another action</Link></li>
-                  <li><hr className="dropdown-divider" /></li>
-                  <li><Link className="dropdown-item" to="/">Something else here</Link></li>
+                  {
+                    cats.map((e) => {
+                      return (
+                        <li key={e}>
+                          <span
+                            onClick={() => {
+                              // Separate products into matching and non-matching categories
+                              const selectedProds = product.filter((x) => x.category === e);
+                              const otherProds = product.filter((x) => x.category !== e);
+
+                              // Combine
+                              const sortedProds = [...selectedProds, ...otherProds];
+
+                              // Update 
+                              props.setProduct(sortedProds);
+
+                              //setSearchByCat
+                              setSearchByCat({ bool: true, key: e });
+                            }}
+                            className="dropdown-item"
+                          >
+                            {e}
+                          </span>
+                        </li>
+                      );
+                    })
+
+                  }
+
                 </ul>
               </li>
+              {
+                searchByCat.bool && <div className="nav-item m-1 px-2 py-1 border">
+                  <div className="d-flex justify-content-center align-items-center">
+                    <span>{searchByCat.key}</span>
+                    <div className="shadow ms-2">
+                      <button onClick={() => {
+                        props.setNeedToUpdate(true);
+                        props.setNeedToUpdate(true);
+                        setSearchByCat({ bool: false, key: '' });
+                      }} type="button" className="btn-close btn-sm" aria-label="Close"></button>
+                    </div>
+                  </div>
+                </div>
+              }
             </ul>
             <div className="me-3">
               <Link to="/cart">
@@ -105,7 +154,7 @@ function Nav(props) {
                   <ul className="list-group" >
                     {product.map((e) => (
                       <li key={e.id} className="list-group-item">
-                        <Link to={`/product/${e.id}`} className="search-result-link" style={{ textDecoration: 'none' }}>
+                        <Link onClick={() => setKeyword('')} to={`/product/${e.id}`} className="search-result-link" style={{ textDecoration: 'none', color: 'rgb(200,200,200)' }}>
                           <span>{e.name.length > 25 ? e.name.slice(0, 22) + "..." : e.name}</span>
 
                         </Link>

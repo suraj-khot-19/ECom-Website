@@ -22,7 +22,7 @@ function App() {
   useEffect(() => {
     if (needToUpdate) {
       getProducts();
-      console.log("need to update")
+      setNeedToUpdate(false);
     }
   }, [needToUpdate])
 

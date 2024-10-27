@@ -18,7 +18,6 @@ function Nav(props) {
   }
 
   async function searching() {
-    console.log("searching", keyword)
     const url = `http://localhost:8080/api/product/search?keyword=${keyword}`;
 
     try {
@@ -75,47 +74,47 @@ function Nav(props) {
                 ></i>
               </Link>
             </div>
-            <form className="d-flex" role="search">
+            <form className="d-flex" role="search" >
               <input
                 disabled={fetchError}
                 className="form-control me-2"
                 type="search"
-                placeholder="Search"
+                placeholder="Search Products"
                 aria-label="Search"
                 name="keyword"
                 value={keyword}
                 onChange={handelChange}
               />
 
-              {product?.length > 0 && keyword.length >= 1 && (
+              {keyword.length >= 1 &&
                 <div
-                  className="dropdown-menu show w-100 mt-1 shadow position-absolute"
+                  className="w-100 mt-1 shadow position-absolute"
                   style={{
                     maxWidth: '200px',
                     maxHeight: '250px',
-                    overflowY: 'auto',
+                    overflowY: 'unset',
                     right: '22px',
                     zIndex: '20',
-                    ...(product.length > 2
-                      ? { bottom: '-130px' }
-                      : { top: '100%' }), // Adjust based on product count
+                    top: '100%'
                   }}
                 >
                   {/* Close button */}
                   <div className="shadow position-absolute" style={{ right: '5px', top: '5px', zIndex: '35' }}>
                     <button onClick={() => setKeyword('')} type="button" className="btn-close btn-sm" aria-label="Close"></button>
                   </div>
-
-                  {/* Products */}
-                  <div className="pt-2">
+                  <ul className="list-group" >
                     {product.map((e) => (
-                      <Link to={`/product/${e.id}`} className="dropdown-item" key={e.id}>
-                        {e.name}
-                      </Link>
-                    ))}
-                  </div>
+                      <li key={e.id} className="list-group-item">
+                        <Link to={`/product/${e.id}`} className="search-result-link" style={{ textDecoration: 'none' }}>
+                          <span>{e.name.length > 25 ? e.name.slice(0, 22) + "..." : e.name}</span>
+
+                        </Link>
+                      </li>
+                    ))
+                    }
+                  </ul>
                 </div>
-              )}
+              }
             </form>
 
 

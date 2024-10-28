@@ -9,8 +9,9 @@ function Card(props) {
   // effect
   useEffect(() => {
     fetchImage();
+    isInCart();
     // eslint-disable-next-line 
-  }, [id])
+  }, [id, props.cartItems])
 
   // function to fetch product image
   async function fetchImage() {
@@ -31,6 +32,14 @@ function Card(props) {
       setImage('');
     }
 
+  }
+
+  //is in cart
+  const [isCart, setIsCart] = useState(false);
+  const isInCart = () => {
+    //some() to check for existence
+    const exists = props.cartItems?.some(e => e.id === id);
+    setIsCart(exists);
   }
   return (
     <>
@@ -60,9 +69,15 @@ function Card(props) {
           </div>
         </Link>
         <div className="text-center mt-2 mb-1">
-          <button disabled={!available} className="btn btn-outline-light">
+
+          <button disabled={!available || isCart} className="btn btn-outline-light"
+            onClick={() => {
+              props.setCartItems((prev) => [...prev, props.product]);
+
+            }}
+          >
             {
-              available ? 'Add To Cart' : 'Out Of Stock'
+              isCart ? 'Check out in cart' : available ? 'Add To Cart' : 'Out Of Stock'
             }
           </button>
         </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 
-export default function Home() {
+export default function Home(props) {
 
   //states
   const [product, setProduct] = useState([])
@@ -57,7 +57,7 @@ export default function Home() {
                 :
                 product?.map((e) => {
                   return <div className="col-xl-3 col-sm-6 col-md-4" key={e.id}>
-                    <Card product={e} />
+                    <Card product={e} setCartItems={props.setCartItems} cartItems={props.cartItems} />
                   </div>
                 })}
             </div>

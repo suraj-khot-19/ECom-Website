@@ -79,6 +79,13 @@ function Nav() {
                   }
                 </ul>
               </li>
+
+              {/*cart */}
+              <div className="nav-item">
+                <NavLink className={({ isActive }) => isActive ? "nav-link active fw-bold" : "nav-link"} aria-current="page" to="/cart">
+                  Cart
+                </NavLink>
+              </div>
             </ul>
 
             {/* ---------------------------------------------------- search feature ---------------------------------------------------- */}

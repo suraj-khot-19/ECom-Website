@@ -102,7 +102,7 @@ export default function Product(props) {
                             {/* image */}
                             <div style={{ width: '50%' }}>
                                 <img src={image} alt='not found ...' style={{
-                                    width: '100%', height: 'auto', maxHeight: '100%', objectFit: 'contain', maxWidth: '80%'
+                                    width: '100%', height: 'auto', maxHeight: '100vh', objectFit: 'contain', maxWidth: '80%'
                                 }} />
                             </div>
 

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
 function Card(props) {
@@ -11,12 +11,15 @@ function Card(props) {
   //states
   const [image, setImage] = useState();
 
+  //navigate
+  const navigate = useNavigate();
+
   // effect
   useEffect(() => {
     fetchImage();
     isInCart();
     // eslint-disable-next-line 
-  }, [id])
+  }, [id, props.cartItems])
 
   // function to fetch product image
   async function fetchImage() {
@@ -78,7 +81,7 @@ function Card(props) {
           <button disabled={!available || isCart} className="btn btn-outline-light"
             onClick={() => {
               props.setCartItems((prev) => [...prev, props.product]);
-
+              navigate('/cart');
             }}
           >
             {

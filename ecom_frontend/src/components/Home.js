@@ -15,7 +15,7 @@ export default function Home(props) {
 
   //   fetch all products
   const getProducts = async () => {
-    const url = "http://localhost:8080/api/products";
+    const url = `${props.apiUrl}/products`;
 
     // try catch
     try {
@@ -49,7 +49,7 @@ export default function Home(props) {
           </div>
         ) : (
           <div className="mx-auto">
-            <div className="row justify-content-center">
+            <div className="row">
               {product.length === 0 ?
                 <div className="container text-center" style={{ marginTop: '30vh' }}>
                   <h5>No Product Found....</h5>
@@ -57,7 +57,7 @@ export default function Home(props) {
                 :
                 product?.map((e) => {
                   return <div className="col-xl-3 col-sm-6 col-md-4" key={e.id}>
-                    <Card product={e} setCartItems={props.setCartItems} cartItems={props.cartItems} />
+                    <Card product={e} setCartItems={props.setCartItems} cartItems={props.cartItems} apiUrl={props.apiUrl} />
                   </div>
                 })}
             </div>

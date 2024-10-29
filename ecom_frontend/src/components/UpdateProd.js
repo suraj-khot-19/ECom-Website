@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import notfoundimg from './notfound.png';
+import notfoundimg from '../assets/notfound.png';
 
-function UpdateProd() {
+function UpdateProd(props) {
 
     // Initialize useNavigate
     const navigate = useNavigate();
 
     //get id from parameter which is comming as id
     const { id } = useParams();
+
+    //state
+    //! prooduct
+    const [product, setProduct] = useState({});
+    //! image
+    const [image, setImage] = useState(null)
+    //! editing
+    const [editing, setEditing] = useState(false)
+    //! error
+    const [fetchError, setFetchError] = useState(false)
 
     //to load product data
     useEffect(() => {
@@ -18,9 +28,9 @@ function UpdateProd() {
         // eslint-disable-next-line 
     }, []);
 
-    //to load product data
+    //to load single product data
     async function loadData() {
-        const url = `http://localhost:8080/api/product/${id}`;
+        const url = `${props.apiUrl}/product/${id}`;
         const response = await fetch(url, {
             method: "GET",
             headers: {
@@ -42,10 +52,9 @@ function UpdateProd() {
         }
     }
 
-    // to load image
     // function to fetch product image
     async function fetchImage() {
-        let url = ` http://localhost:8080/api/product/${id}/image`;
+        let url = `${props.apiUrl}/product/${id}/image`;
         try {
             // fire to get
             const response = await axios.get(
@@ -75,19 +84,6 @@ function UpdateProd() {
     }
 
 
-
-    // prooduct
-    const [product, setProduct] = useState({});
-
-    // image
-    const [image, setImage] = useState(null)
-
-    // editing
-    const [editing, setEditing] = useState(false)
-
-    //error
-    const [fetchError, setFetchError] = useState(false)
-
     // handelinng input change
     function handelOnChangeForm(e) {
         const { name, value } = e.target;
@@ -106,7 +102,7 @@ function UpdateProd() {
         // do not reload
         e.preventDefault();
 
-        // creating form data
+        // creating form data toupdate product
         const formData = new FormData(); //a set of key/value pairs 
         formData.append("file", image);
         console.log("id:", id)
@@ -117,7 +113,7 @@ function UpdateProd() {
             ));
 
         try {
-            const response = await axios.put(`http://localhost:8080/api/product/update/${id}`, formData, {
+            const response = await axios.put(`${props.apiUrl}/product/update/${id}`, formData, {
                 headers: {
                     // multipart/form-data
                     "Content-Type": "multipart/form-data",
@@ -228,13 +224,7 @@ function UpdateProd() {
                                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div className="modal-body text-center">
-                                                <img src={image ? URL.createObjectURL(image) : "image unavailable"} alt='img' style={{
-                                                    width: '90%',
-                                                    height: '90%',
-                                                    objectFit: 'cover',
-                                                    padding: '3px',
-                                                    margin: '0'
-                                                }} />
+                                                <img src={image ? URL.createObjectURL(image) : "image unavailable"} alt='img' style={{ width: '90%', height: '90%', objectFit: 'cover', padding: '3px', margin: '0' }} />
                                             </div>
                                         </div>
                                     </div>

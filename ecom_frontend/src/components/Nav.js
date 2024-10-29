@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
-function Nav() {
+function Nav(props) {
   //state
   const [product, setProduct] = useState([])
   const [keyword, setKeyword] = useState('');
@@ -16,7 +16,7 @@ function Nav() {
 
   //api request for search
   async function searching() {
-    const url = `http://localhost:8080/api/product/search?keyword=${keyword}`;
+    const url = `${props.apiUrl}/product/search?keyword=${keyword}`;
     //try catch
     try {
       const response = await fetch(url, {

@@ -14,17 +14,12 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+@RequestMapping("/api/v2")
 public class ProductController {
 
     //object of service
     @Autowired
     ProductService service;
-
-    @RequestMapping("/")
-    public String greet() {
-        return "Hello i am online";
-    }
 
     //get all products
     @GetMapping("/products")

@@ -22,7 +22,7 @@ function Cart(props) {
 
     // Function to fetch product image
     const fetchImage = async (id) => {
-        let url = `http://localhost:8080/api/product/${id}/image`;
+        let url = `${props.apiUrl}/product/${id}/image`;
         try {
             const response = await axios.get(url, {
                 responseType: 'blob'

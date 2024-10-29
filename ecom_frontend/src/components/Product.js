@@ -1,24 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import notFoundImage from './notfound.png';
+import notFoundImage from '../assets/notfound.png';
 import axios from 'axios';
 
-export default function Product() {
+export default function Product(props) {
     // to navigate
     const navigate = useNavigate();
 
+    //states
     const [singleProduct, setSingleProduct] = useState([]);
     const [notFound, setNotFound] = useState(false)
 
     // image
     const [image, setImage] = useState(null);
 
-    //get id from parameter which is comming as id
+    //get id from parameter which is comming as id from router itself
     const { id } = useParams();
 
+    //effect
+    useEffect(() => {
+        if (id) {
+            fetchingSingleProduct();
+            fetchImageOfProduct();
+        }
+        // eslint-disable-next-line
+    }, [id]);
+
+
+    //fetch single product
     const fetchingSingleProduct = async () => {
         try {
-            const url = `http://localhost:8080/api/product/${id}`;
+            const url = `${props.apiUrl}/product/${id}`;
             const jsonData = await fetch(url, {
                 method: "GET",
                 headers: {
@@ -32,10 +44,10 @@ export default function Product() {
         }
     }
 
-    //fetching an image
+    //fetching an image of single product
     async function fetchImageOfProduct() {
         try {
-            const url = `http://localhost:8080/api/product/${id}/image`;
+            const url = `${props.apiUrl}/product/${id}/image`;
             const response = await axios(url,
                 {
                     //type of blob
@@ -53,16 +65,10 @@ export default function Product() {
         }
     }
 
-    useEffect(() => {
-        if (id) {
-            fetchingSingleProduct();
-            fetchImageOfProduct();
-        }
-        // eslint-disable-next-line
-    }, [id]);
 
+    //function to delete a product
     async function handelDelete() {
-        const url = `http://localhost:8080/api/product/delete/${id}`
+        const url = `${props.apiUrl}/product/delete/${id}`
         try {
             const response = await fetch(url, {
                 method: 'DELETE',

@@ -10,8 +10,11 @@ import Cart from "./components/Cart";
 
 
 function App() {
-
+  //state
   const [cartItems, setCartItems] = useState([]);
+
+  //api url
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Load cart items from local storage
   useEffect(() => {
@@ -28,14 +31,14 @@ function App() {
 
   return (
     <Router>
-      <Nav />
+      <Nav apiUrl={apiUrl} />
       <Routes>
-        <Route path="/" element={<Home cartItems={cartItems} setCartItems={setCartItems} />} />
-        <Route path="/product/:id" element={<Product />} />
-        <Route path="/product" element={<AddProduct />} />
-        <Route path="/product/update/:id" element={<UpdateProduct />} />
-        <Route path="/product/category/:cat" element={<SearchByCategory />} />
-        <Route path="/cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
+        <Route path="/" element={<Home cartItems={cartItems} setCartItems={setCartItems} apiUrl={apiUrl} />} />
+        <Route path="/product/:id" element={<Product apiUrl={apiUrl} />} />
+        <Route path="/product" element={<AddProduct apiUrl={apiUrl} />} />
+        <Route path="/product/update/:id" element={<UpdateProduct apiUrl={apiUrl} />} />
+        <Route path="/product/category/:cat" element={<SearchByCategory apiUrl={apiUrl} />} />
+        <Route path="/cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} apiUrl={apiUrl} />} />
       </Routes>
     </Router>
   );

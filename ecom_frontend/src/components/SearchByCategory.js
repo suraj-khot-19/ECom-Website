@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import Card from './Card';
 
 
-function SearchByCategory() {
+function SearchByCategory(props) {
     //parameter cat
     const { cat } = useParams();
 
@@ -18,7 +18,7 @@ function SearchByCategory() {
 
     //search by category
     const searchByCategory = async () => {
-        const url = `http://localhost:8080/api/product/category/${cat}`;
+        const url = `${props.apiUrl}/product/category/${cat}`;
         try {
             const response = await fetch(url,
                 {

@@ -2,8 +2,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
 function Card(props) {
+  //api url
+  const apiUrl = process.env.REACT_APP_API_URL;
+
+  //destructre product
   const { id, name, brand, price, available, disc } = props.product;
 
+  //states
   const [image, setImage] = useState();
 
   // effect
@@ -11,11 +16,11 @@ function Card(props) {
     fetchImage();
     isInCart();
     // eslint-disable-next-line 
-  }, [id, props.cartItems])
+  }, [id])
 
   // function to fetch product image
   async function fetchImage() {
-    let url = ` http://localhost:8080/api/product/${id}/image`;
+    let url = `${apiUrl}/product/${id}/image`;
     try {
       // fire to get
       const response = await axios.get(

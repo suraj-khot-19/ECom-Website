@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 
-function AddProduct() {
+function AddProduct(props) {
 
     // Initialize useNavigate
     const navigate = useNavigate();
@@ -40,7 +40,7 @@ function AddProduct() {
         ));
 
         try {
-            const response = await axios.post("http://localhost:8080/api/product", formData, {
+            const response = await axios.post(`${props.apiUrl}/product`, formData, {
                 headers: {
                     // multipart/form-data
                     "Content-Type": "multipart/form-data",

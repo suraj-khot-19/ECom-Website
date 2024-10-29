@@ -34,7 +34,7 @@ function App() {
       <Nav apiUrl={apiUrl} />
       <Routes>
         <Route path="/" element={<Home cartItems={cartItems} setCartItems={setCartItems} apiUrl={apiUrl} />} />
-        <Route path="/product/:id" element={<Product apiUrl={apiUrl} />} />
+        <Route path="/product/:id" element={<Product cartItems={cartItems} setCartItems={setCartItems} apiUrl={apiUrl} />} />
         <Route path="/product" element={<AddProduct apiUrl={apiUrl} />} />
         <Route path="/product/update/:id" element={<UpdateProduct apiUrl={apiUrl} />} />
         <Route path="/product/category/:cat" element={<SearchByCategory apiUrl={apiUrl} />} />

@@ -34,5 +34,13 @@ This is a full-stack eCommerce application built with **Spring Boot** on the bac
 - **REST APIs**: To handle client requests.
 
 ## Project Structure
+- ecom_backend
+- ecom_frontend 
 
 ### Backend
+- Controller
+- model
+- Repository
+- Service
+
+### Frontend 

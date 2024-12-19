@@ -44,3 +44,6 @@ This is a full-stack eCommerce application built with **Spring Boot** on the bac
 - Service
 
 ### Frontend 
+- src
+  - components
+  - App.js

@@ -1,4 +1,4 @@
-# eCommerce Application
+# eCommerce Application Using React+SpringBoot
 
 This is a full-stack eCommerce application built with **Spring Boot** on the backend and **React** on the frontend. The project showcases a basic eCommerce platform with essential features and an engaging user interface.
 
